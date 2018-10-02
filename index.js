@@ -1,5 +1,5 @@
 const path = require('path')
-
+const expressEdge = require('express-edge')
 const express =require('express')
 const app = express();
 
