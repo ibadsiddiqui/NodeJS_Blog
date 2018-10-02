@@ -4,6 +4,8 @@ const express =require('express')
 const app = express();
 
 app.use(express.static('public'))
+app.use(expressEdge);
+app.set('views', `${__dirname}/views`);
 
 app.get('/', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'pages/index.html'))
