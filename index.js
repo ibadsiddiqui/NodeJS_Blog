@@ -17,7 +17,7 @@ app.get('/about', (req, res) => {
 })
 
 app.get('/post', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'pages/post.html'))
+    res.render("post")
 })
 
 app.get('/contact', (req, res) => {
