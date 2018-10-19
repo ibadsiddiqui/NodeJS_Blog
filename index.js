@@ -1,10 +1,8 @@
-const path = require('path');
 const expressEdge = require('express-edge');
 const mongoose = require('mongoose');
 const express =require('express');
 
 const app = express();
-
 
 mongoose.connect('mongodb://localhost/node-js-blog')
 

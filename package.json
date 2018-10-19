@@ -18,6 +18,7 @@
   "homepage": "https://github.com/ibadsiddiqui/NodeJS_Blog#readme",
   "dependencies": {
     "express": "^4.16.3",
-    "express-edge": "^1.0.0"
+    "express-edge": "^1.0.0",
+    "mongoose": "^5.3.4"
   }
 }
