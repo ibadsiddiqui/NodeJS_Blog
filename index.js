@@ -1,13 +1,16 @@
 const expressEdge = require('express-edge');
 const mongoose = require('mongoose');
 const express = require('express');
-
+const bodyParser = require('body-parser')
 const app = express();
 
 mongoose.connect('mongodb://localhost/node-js-blog')
 
 app.use(express.static('public'))
 app.use(expressEdge);
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: true}))
+
 app.set('views', `${__dirname}/views`);
 
 app.get('/', (req, res) => {
@@ -21,7 +24,8 @@ app.get('/posts/new', (req, res) => {
 
 // 
 app.post('/posts/store', (req, res) => {
-    res.redirect('/')
+    console.log(req.body)
+    res.redirect('/');
 
 })
 
