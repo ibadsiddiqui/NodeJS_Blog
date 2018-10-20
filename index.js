@@ -1,6 +1,6 @@
 const expressEdge = require('express-edge');
 const mongoose = require('mongoose');
-const express =require('express');
+const express = require('express');
 
 const app = express();
 
@@ -14,9 +14,17 @@ app.get('/', (req, res) => {
     res.render('index')
 })
 
-app.get('/posts/new', (req, res)=> {
+// routes to creating new post url
+app.get('/posts/new', (req, res) => {
     res.render('create')
 })
+
+// 
+app.post('/posts/store', (req, res) => {
+    res.redirect('/')
+
+})
+
 
 app.get('/about', (req, res) => {
     res.render('about')
@@ -32,6 +40,6 @@ app.get('/contact', (req, res) => {
 
 
 
-app.listen(4000, ()=> {
+app.listen(4000, () => {
     console.log('live at 4000')
 })
