@@ -28,7 +28,13 @@ app.get('/posts/new', (req, res) => {
     res.render('create')
 })
 
-// 
+// routes to single page for the post
+app.get('/post/:id', (req, res) => {
+    console.log(req.params.id)
+})
+
+
+// post request for creating new blogging post
 app.post('/posts/store', (req, res) => {
     Post.create(req.body, (error, post) => {
         if (error) 
