@@ -16,7 +16,7 @@ app.set('views', `${__dirname}/views`);
 
 app.get('/', async (req, res) => {
     const posts = await Post.find({})
-    
+
 
     res.render('index', {
         posts
@@ -29,20 +29,21 @@ app.get('/posts/new', (req, res) => {
 })
 
 // routes to single page for the post
-app.get('/post/:id', (req, res) => {
-    console.log(req.params.id)
+app.get('/post/:id', async (req, res) => {
+    const post = await Post.findById(req.params.id);
+    res.render("post", { post })
 })
+
 
 
 // post request for creating new blogging post
 app.post('/posts/store', (req, res) => {
     Post.create(req.body, (error, post) => {
-        if (error) 
+        if (error)
             throw error;
         res.redirect('/');
-        
-    })
 
+    })
 })
 
 
