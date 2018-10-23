@@ -1,22 +1,26 @@
+const path = require('path');
 const expressEdge = require('express-edge');
 const mongoose = require('mongoose');
 const express = require('express');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload');
+
+const Post = require('./database/models/Post');
+
 const app = express();
 
-const Post = require('./database/models/Post')
-mongoose.connect('mongodb://localhost/node-js-blog')
+mongoose.connect('mongodb://localhost/node-js-blog');
 
+app.use(fileUpload())   
 app.use(express.static('public'))
 app.use(expressEdge);
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.urlencoded({ extended: true }))
 
 app.set('views', `${__dirname}/views`);
 
 app.get('/', async (req, res) => {
     const posts = await Post.find({})
-
 
     res.render('index', {
         posts
@@ -38,13 +42,19 @@ app.get('/post/:id', async (req, res) => {
 
 // post request for creating new blogging post
 app.post('/posts/store', (req, res) => {
-    Post.create(req.body, (error, post) => {
-        if (error)
-            throw error;
-        res.redirect('/');
 
+    const { image } = req.files;
+    console.log(image);
+    
+    // you need to create a posts folder in the public directory
+    image.mv(path.resolve(__dirname, 'public/posts', image.name), error => {
+
+        Post.create(req.body, (error, post) => {
+            res.redirect('/');
+
+        })
     })
-})
+});
 
 
 app.get('/about', (req, res) => {
