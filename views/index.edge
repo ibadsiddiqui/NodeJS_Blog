@@ -30,12 +30,13 @@
                 {{post.title}}
               </h2>
               <h3 class="post-subtitle">
-                {{post.description}}
-              </h3>
+                  {{post.subtitle}}
+                </h3>
             </a>
             <p class="post-meta">Posted by
               <a href="#">{{post.username}}</a>
-              {{post.createdAt.toDateString()}}</p>
+              {{post.createdAt.toDateString()}}
+            </p>
           </div> 
           @endeach
 
