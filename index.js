@@ -11,13 +11,24 @@ const app = express();
 
 mongoose.connect('mongodb://localhost/node-js-blog');
 
-app.use(fileUpload())   
+app.use(fileUpload())
 app.use(express.static('public'))
 app.use(expressEdge);
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.set('views', `${__dirname}/views`);
+
+const validateCreatePostMiddleware = (req, res, next) => {
+    if(!req.files.image || ! req.body.username || !req.body.title || !req.body.subtitle || !req.body.content){
+        return res.redirect('/posts/new')
+    }
+
+    next();
+}
+
+app.use('/posts/store' ,validateCreatePostMiddleware)
+
 
 app.get('/', async (req, res) => {
     const posts = await Post.find({})
@@ -45,7 +56,7 @@ app.post('/posts/store', (req, res) => {
 
     const { image } = req.files;
     console.log(image);
-    
+
     // you need to create a posts folder in the public directory
     image.mv(path.resolve(__dirname, 'public/posts', image.name), error => {
 
