@@ -12,7 +12,7 @@ const app = express();
 
 // controllers
 const createPostController = require('./controllers/createPost')
-
+const homePageController = require('./controllers/homePage')
 
 
 mongoose.connect('mongodb://localhost/node-js-blog');
@@ -36,13 +36,7 @@ const validateCreatePostMiddleware = (req, res, next) => {
 app.use('/posts/store' ,validateCreatePostMiddleware)
 
 
-app.get('/', async (req, res) => {
-    const posts = await Post.find({})
-
-    res.render('index', {
-        posts
-    })
-})
+app.get('/', homePageController)
 
 // routes to creating new post url
 app.get('/posts/new', createPostController)
