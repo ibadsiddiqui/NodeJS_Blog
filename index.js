@@ -13,10 +13,13 @@ const app = express();
 // controllers
 const createPostController = require('./controllers/createPost')
 const homePageController = require('./controllers/homePage')
+const storePostController = require('./controllers/storePost')
+const getPostController = require('./controllers/getPost');
 
-
+// database connection
 mongoose.connect('mongodb://localhost/node-js-blog');
 
+// middlewares
 app.use(fileUpload())
 app.use(express.static('public'))
 app.use(expressEdge);
@@ -26,14 +29,14 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.set('views', `${__dirname}/views`);
 
 const validateCreatePostMiddleware = (req, res, next) => {
-    if(!req.files.image || ! req.body.username || !req.body.title || !req.body.subtitle || !req.body.content){
+    if (!req.files.image || !req.body.username || !req.body.title || !req.body.subtitle || !req.body.content) {
         return res.redirect('/posts/new')
     }
 
     next();
 }
 
-app.use('/posts/store' ,validateCreatePostMiddleware)
+app.use('/posts/store', validateCreatePostMiddleware)
 
 
 app.get('/', homePageController)
@@ -42,45 +45,10 @@ app.get('/', homePageController)
 app.get('/posts/new', createPostController)
 
 // routes to single page for the post
-app.get('/post/:id', async (req, res) => {
-    const post = await Post.findById(req.params.id);
-    res.render("post", { post })
-})
-
-
+app.get('/post/:id', getPostController)
 
 // post request for creating new blogging post
-app.post('/posts/store', (req, res) => {
-
-    const { image } = req.files;
-    console.log(image);
-
-    // you need to create a posts folder in the public directory
-    image.mv(path.resolve(__dirname, 'public/posts', image.name), error => {
-
-        Post.create({
-            ...req.body,
-            image: `/posts/${image.name}`
-        }, (error, post) => {
-            res.redirect('/');
-
-        })
-    })
-});
-
-
-app.get('/about', (req, res) => {
-    res.render('about')
-})
-
-app.get('/post', (req, res) => {
-    res.render("post")
-})
-
-app.get('/contact', (req, res) => {
-    res.render("contact")
-})
-
+app.post('/posts/store', storePostController);
 
 
 app.listen(4000, () => {
