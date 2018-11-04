@@ -9,6 +9,12 @@ const Post = require('./database/models/Post');
 
 const app = express();
 
+
+// controllers
+const createPostController = require('./controllers/createPost')
+
+
+
 mongoose.connect('mongodb://localhost/node-js-blog');
 
 app.use(fileUpload())
@@ -39,9 +45,7 @@ app.get('/', async (req, res) => {
 })
 
 // routes to creating new post url
-app.get('/posts/new', (req, res) => {
-    res.render('create')
-})
+app.get('/posts/new', createPostController)
 
 // routes to single page for the post
 app.get('/post/:id', async (req, res) => {
