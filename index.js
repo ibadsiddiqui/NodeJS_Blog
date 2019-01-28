@@ -10,11 +10,6 @@ const Post = require('./database/models/Post');
 const app = express();
 
 
-// controllers
-const createPostController = require('./controllers/createPost')
-const homePageController = require('./controllers/homePage')
-const storePostController = require('./controllers/storePost')
-const getPostController = require('./controllers/getPost');
 
 // database connection
 mongoose.connect('mongodb://localhost/node-js-blog');
@@ -36,8 +31,13 @@ const validateCreatePostMiddleware = (req, res, next) => {
     next();
 }
 
-app.use('/posts/store', validateCreatePostMiddleware)
+// controllers
+const createPostController = require('./controllers/createPost')
+const homePageController = require('./controllers/homePage')
+const storePostController = require('./controllers/storePost')
+const getPostController = require('./controllers/getPost');
 
+app.use('/posts/store', validateCreatePostMiddleware)
 
 app.get('/', homePageController)
 
