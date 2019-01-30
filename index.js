@@ -25,14 +25,20 @@ app.set('views', `${__dirname}/views`);
 
 const storePost = require('./middleware/storePost')
 
-// controllers
+// Post controllers
 const createPostController = require('./controllers/post/createPost')
 const homePageController = require('./controllers/post/homePage')
 const storePostController = require('./controllers/post/storePost')
 const getPostController = require('./controllers/post/getPost');
 
+// User controllers
+const createUserController = require('./controllers/users/createUsers')
 
+// root route
 app.get('/', homePageController)
+
+// get request for new user creation
+app.get('/auth/register', createUserController)
 
 // routes to creating new post url
 app.get('/posts/new', createPostController)
