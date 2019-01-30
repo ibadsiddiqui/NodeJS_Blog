@@ -26,12 +26,11 @@ app.set('views', `${__dirname}/views`);
 const storePost = require('./middleware/storePost')
 
 // controllers
-const createPostController = require('./controllers/createPost')
-const homePageController = require('./controllers/homePage')
-const storePostController = require('./controllers/storePost')
-const getPostController = require('./controllers/getPost');
+const createPostController = require('./controllers/post/createPost')
+const homePageController = require('./controllers/post/homePage')
+const storePostController = require('./controllers/post/storePost')
+const getPostController = require('./controllers/post/getPost');
 
-app.use('/posts/store', storePost)
 
 app.get('/', homePageController)
 
@@ -41,6 +40,8 @@ app.get('/posts/new', createPostController)
 // routes to single page for the post
 app.get('/post/:id', getPostController)
 
+// middleware for post
+app.use('/posts/store', storePost)
 // post request for creating new blogging post
 app.post('/posts/store', storePostController);
 
