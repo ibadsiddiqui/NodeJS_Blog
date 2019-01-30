@@ -39,7 +39,7 @@ app.get('/', homePageController)
 
 // get request for new user creation
 app.get('/auth/register', createUserController)
-app.post('/user/register', storeUserController)
+app.post('/users/register', storeUserController)
 
 
 // routes to creating new post url
