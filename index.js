@@ -23,13 +23,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 app.set('views', `${__dirname}/views`);
 
-const validateCreatePostMiddleware = (req, res, next) => {
-    if (!req.files.image || !req.body.username || !req.body.title || !req.body.subtitle || !req.body.content) {
-        return res.redirect('/posts/new')
-    }
-
-    next();
-}
+const storePost = require('./middleware/storePost')
 
 // controllers
 const createPostController = require('./controllers/createPost')
@@ -37,7 +31,7 @@ const homePageController = require('./controllers/homePage')
 const storePostController = require('./controllers/storePost')
 const getPostController = require('./controllers/getPost');
 
-app.use('/posts/store', validateCreatePostMiddleware)
+app.use('/posts/store', storePost)
 
 app.get('/', homePageController)
 
