@@ -34,13 +34,17 @@ const getPostController = require('./controllers/post/getPost');
 // User controllers
 const createUserController = require('./controllers/users/createUsers')
 const storeUserController = require('./controllers/users/storeUser')
+const userLoginController = require('./controllers/users/userLogin')
+
+
 // root route
 app.get('/', homePageController)
 
 // get request for new user creation
 app.get('/auth/register', createUserController)
-app.post('/users/register', storeUserController)
+app.get('/auth/login', userLoginController)
 
+app.post('/users/register', storeUserController)
 
 // routes to creating new post url
 app.get('/posts/new', createPostController)
