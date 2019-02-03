@@ -12,6 +12,7 @@ module.exports = (req, res) => {
                 bcrypt.compare(password, user.password, (error, same) => {
                     if (error) throw error;
                     if (same) {
+                        req.session.UserId = user._id
                         res.redirect('/')
                     } else {
                         res.redirect('/auth/login')
