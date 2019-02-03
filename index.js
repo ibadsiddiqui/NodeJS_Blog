@@ -1,11 +1,9 @@
-const path = require('path');
 const expressEdge = require('express-edge');
 const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 
-const Post = require('./database/models/Post');
 
 const app = express();
 
