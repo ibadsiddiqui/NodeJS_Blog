@@ -3,10 +3,12 @@ const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
-
+const expressSession = require('express-session')
 
 const app = express();
-
+app.use(expressSession({
+    secret: 'secret'
+}))
 
 
 // database connection
