@@ -4,15 +4,26 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const expressSession = require('express-session')
+const connectMongo = require('connect-mongo')
+
 
 const app = express();
-app.use(expressSession({
-    secret: 'secret'
-}))
-
 
 // database connection
 mongoose.connect('mongodb://localhost/node-js-blog');
+
+
+const mongoStore = connectMongo(expressSession)
+
+app.use(expressSession({
+    secret: 'secret',
+    store : new mongoStore({
+        mongooseConnection: mongoose.connection
+
+    })
+}))
+
+
 
 // middlewares
 app.use(fileUpload())
