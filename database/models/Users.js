@@ -16,15 +16,16 @@ const UserSchema = new mongoose.Schema({
     }
 });
 
-UserSchema.pre('save', (next) => {
-    // targets the user being created before saving
-    const user = this;
+const User = module.exports = mongoose.model('User', UserSchema);
 
-    bcrypt.hash(user.password, 10, (error, encryptedPassword) => {
-        user.password = encryptedPassword;
+module.exports.createUser = function (user, callback) {
+    bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(user.password, salt, (err, hash) => {
+            if (err) {
+                throw err;
+            }
+            user.password = hash;
+            User.create(user, callback)
+        });
     });
-
-    next()
-});
-
-module.exports = mongoose.model("User", UserSchema);
+}
