@@ -17,7 +17,7 @@ const mongoStore = connectMongo(expressSession)
 
 app.use(expressSession({
     secret: 'secret',
-    store : new mongoStore({
+    store: new mongoStore({
         mongooseConnection: mongoose.connection
 
     })
@@ -34,7 +34,10 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 app.set('views', `${__dirname}/views`);
 
+const authMiddleWare = require('./middleware/auth')
 const storePost = require('./middleware/storePost')
+
+
 
 // Post controllers
 const createPostController = require('./controllers/post/createPost')
@@ -55,19 +58,17 @@ app.get('/', homePageController)
 app.get('/auth/register', createUserController)
 app.get('/auth/login', userLoginController)
 app.post('/auth/login', userLoginController)
-
 app.post('/users/register', storeUserController)
 
 // routes to creating new post url
-app.get('/posts/new', createPostController)
+app.get('/posts/new', authMiddleWare, createPostController)
 
 // routes to single page for the post
 app.get('/post/:id', getPostController)
 
-// middleware for post
-app.use('/posts/store', storePost)
+
 // post request for creating new blogging post
-app.post('/posts/store', storePostController);
+app.post('/posts/store', authMiddleWare, storePost, storePostController);
 
 
 app.listen(4000, () => {
