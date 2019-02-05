@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const expressSession = require('express-session')
 const connectMongo = require('connect-mongo')
-
+const connectFlash = require('connect-flash')
 
 const app = express();
 
@@ -31,6 +31,7 @@ app.use(express.static('public'))
 app.use(expressEdge);
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(connectFlash())
 
 app.set('views', `${__dirname}/views`);
 
