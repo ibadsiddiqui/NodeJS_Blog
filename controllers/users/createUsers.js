@@ -2,6 +2,6 @@ module.exports = (req, res) => {
     // console.log()
 
     res.render('register', {
-        errors: req.session.registrationErrors
+        errors: req.flash('registrationErrors')
     })
 }
