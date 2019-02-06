@@ -5,9 +5,9 @@ module.exports = (req, res) => {
         if (error) {
             console.log(error)
             const registrationErrors = Object.keys(error.errors).map(key => error.errors[key].message)
-            
-            req.flash('registrationErrors', registrationErrors)
 
+            req.flash('registrationErrors', registrationErrors)
+            req.flash('data', req.body)
             return res.redirect('/auth/register')
         }
         else
