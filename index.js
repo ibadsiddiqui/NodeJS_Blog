@@ -35,9 +35,10 @@ app.use(connectFlash())
 
 app.set('views', `${__dirname}/views`);
 
+// middlwares
 const authMiddleWare = require('./middleware/auth')
 const storePost = require('./middleware/storePost')
-
+const redirectIfAuthenticatedMiddleware = require('./middleware/redirectIfAuthenticated')
 
 
 // Post controllers
@@ -56,10 +57,10 @@ const userLoginController = require('./controllers/users/loginUser')
 app.get('/', homePageController)
 
 // get request for new user creation
-app.get('/auth/register', createUserController)
-app.get('/auth/login', userLoginController)
-app.post('/auth/login', userLoginController)
-app.post('/users/register', storeUserController)
+app.get('/auth/register', redirectIfAuthenticatedMiddleware, createUserController)
+app.get('/auth/login', redirectIfAuthenticatedMiddleware, userLoginController)
+app.post('/auth/login', redirectIfAuthenticatedMiddleware, userLoginController)
+app.post('/users/register', redirectIfAuthenticatedMiddleware, storeUserController)
 
 // routes to creating new post url
 app.get('/posts/new', authMiddleWare, createPostController)
