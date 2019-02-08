@@ -57,17 +57,17 @@ const getPostController = require('./controllers/post/getPost');
 const createUserController = require('./controllers/users/createUsers')
 const storeUserController = require('./controllers/users/storeUser')
 const userLoginController = require('./controllers/users/loginUser')
-
+const logoutController = require('./controllers/users/userLogout')
 
 // root route
 app.get('/', homePageController)
 
 // get request for new user creation
 app.get('/auth/register', redirectIfAuthenticatedMiddleware, createUserController)
+app.post('/users/register', redirectIfAuthenticatedMiddleware, storeUserController)
 app.get('/auth/login', redirectIfAuthenticatedMiddleware, userLoginController)
 app.post('/auth/login', redirectIfAuthenticatedMiddleware, userLoginController)
-app.post('/users/register', redirectIfAuthenticatedMiddleware, storeUserController)
-
+app.get('/auth/logout', logoutController)
 // routes to creating new post url
 app.get('/posts/new', authMiddleWare, createPostController)
 
