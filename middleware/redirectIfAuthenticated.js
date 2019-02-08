@@ -1,5 +1,3 @@
-const User = require('./../database/models/Users')
-
 module.exports = (req, res, next) => {
 
     // fetch user from database
