@@ -1,6 +1,7 @@
 const expressEdge = require('express-edge');
 const mongoose = require('mongoose');
 const express = require('express');
+const edge = require('edge.js')
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const expressSession = require('express-session')
@@ -35,6 +36,11 @@ app.use(connectFlash())
 
 app.set('views', `${__dirname}/views`);
 
+
+app.use("*", (req, res, next) => {
+    edge.global('auth', req.session.UserId);
+    next()
+})
 // middlwares
 const authMiddleWare = require('./middleware/auth')
 const storePost = require('./middleware/storePost')
