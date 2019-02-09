@@ -67,7 +67,7 @@ app.get('/auth/register', redirectIfAuthenticatedMiddleware, createUserControlle
 app.post('/users/register', redirectIfAuthenticatedMiddleware, storeUserController)
 app.get('/auth/login', redirectIfAuthenticatedMiddleware, userLoginController)
 app.post('/auth/login', redirectIfAuthenticatedMiddleware, userLoginController)
-app.get('/auth/logout', logoutController)
+app.get('/auth/logout', authMiddleWare,logoutController)
 // routes to creating new post url
 app.get('/posts/new', authMiddleWare, createPostController)
 
@@ -78,6 +78,8 @@ app.get('/post/:id', getPostController)
 // post request for creating new blogging post
 app.post('/posts/store', authMiddleWare, storePost, storePostController);
 
+// 404 request
+app.use((req,res) => res.render('not-found'))
 
 app.listen(4000, () => {
     console.log('live at 4000')
