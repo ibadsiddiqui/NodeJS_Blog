@@ -1,3 +1,4 @@
+require('dotenv').config()
 const expressEdge = require('express-edge');
 const mongoose = require('mongoose');
 const express = require('express');
@@ -11,16 +12,14 @@ const connectFlash = require('connect-flash')
 const app = express();
 
 // database connection
-mongoose.connect('mongodb://localhost/node-js-blog');
-
+mongoose.connect(process.env.DB_CONNECTION);
 
 const mongoStore = connectMongo(expressSession)
 
 app.use(expressSession({
-    secret: 'secret',
+    secret: process.env.SESSION_SECRET,
     store: new mongoStore({
         mongooseConnection: mongoose.connection
-
     })
 }))
 
@@ -36,16 +35,15 @@ app.use(connectFlash())
 
 app.set('views', `${__dirname}/views`);
 
-
 app.use("*", (req, res, next) => {
     edge.global('auth', req.session.UserId);
     next()
 })
+
 // middlwares
 const authMiddleWare = require('./middleware/auth')
 const storePost = require('./middleware/storePost')
 const redirectIfAuthenticatedMiddleware = require('./middleware/redirectIfAuthenticated')
-
 
 // Post controllers
 const createPostController = require('./controllers/post/createPost')
@@ -67,20 +65,19 @@ app.get('/auth/register', redirectIfAuthenticatedMiddleware, createUserControlle
 app.post('/users/register', redirectIfAuthenticatedMiddleware, storeUserController)
 app.get('/auth/login', redirectIfAuthenticatedMiddleware, userLoginController)
 app.post('/auth/login', redirectIfAuthenticatedMiddleware, userLoginController)
-app.get('/auth/logout', authMiddleWare,logoutController)
+app.get('/auth/logout', authMiddleWare, logoutController)
 // routes to creating new post url
 app.get('/posts/new', authMiddleWare, createPostController)
 
 // routes to single page for the post
 app.get('/post/:id', getPostController)
 
-
 // post request for creating new blogging post
 app.post('/posts/store', authMiddleWare, storePost, storePostController);
 
 // 404 request
-app.use((req,res) => res.render('not-found'))
+app.use((req, res) => res.render('not-found'))
 
-app.listen(4000, () => {
+app.listen(process.env.PORT, () => {
     console.log('live at 4000')
 })
