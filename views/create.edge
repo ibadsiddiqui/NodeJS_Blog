@@ -43,7 +43,7 @@
                     <div class="control-group">
                         <div class="form-group floating-label-form-group controls">
                             <label for="content">Content</label>
-                            <textarea name="content" placeholder="Content comes here" class="form-control" id="" cols="30" rows="10"></textarea>
+                            <textarea name="content" placeholder="Content comes here" class="form-control" id="content" cols="30" rows="10"></textarea>
                         </div>
                     </div>
                     <div class="form-group mt-5">
@@ -58,4 +58,16 @@
     </div>
 </body>
 
+@endsection
+
+
+@section('styles')
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.css" rel="stylesheet">
+@endsection
+    
+@section('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
+<script>
+    $('#content').summernote();
+</script>
 @endsection
